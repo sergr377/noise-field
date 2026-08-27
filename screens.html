@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noise-field — экраны</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF6;
+    --card:#FFFFFF;
+    --ink:#14171C;
+    --ink-2:#5A6069;
+    --ink-3:#8B9199;
+    --rule:#DDDFD9;
+    --rule-2:#EDEEE9;
+    --ok:#2E7D46;
+    --warn:#B4421F;
+
+    /* та же логика, что у легенды карты: чем громче, тем темнее */
+    --db-45:#B7DFA8;
+    --db-50:#93CE7B;
+    --db-55:#C9C645;
+    --db-60:#DFA53B;
+    --db-65:#CE6A2E;
+    --db-70:#A73A2A;
+    --db-75:#79212F;
+    --db-80:#48122E;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+    padding:40px 28px 64px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .head{max-width:1180px;margin:0 auto 36px}
+  .head h1{
+    font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .head p{font-size:14px;line-height:1.55;color:var(--ink-2);max-width:56ch}
+
+  .gallery{
+    max-width:1180px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(264px,1fr));
+    gap:34px 26px;align-items:start;
+  }
+
+  .slot{min-width:0}
+  .slot > .cap{margin-bottom:12px}
+  .cap .n{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);
+    letter-spacing:.1em;display:block;margin-bottom:3px;
+  }
+  .cap .t{font-size:14px;font-weight:600;display:block;margin-bottom:5px}
+  .cap .d{font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+
+  /* ---- корпус телефона ---- */
+  .phone{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.07);
+    display:flex;flex-direction:column;
+    height:600px;
+  }
+  .status{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:9px 14px 7px;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-3);
+  }
+  .bar{
+    padding:10px 16px 12px;border-bottom:1px solid var(--rule-2);
+    display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  }
+  .bar .title{font-size:15px;font-weight:600}
+  .bar .sub{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);
+    white-space:nowrap;
+  }
+  .body{padding:14px 16px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+
+  /* ---- общие мелочи ---- */
+  .lbl{
+    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .btn{
+    border:1px solid var(--ink);background:var(--ink);color:#fff;
+    border-radius:9px;padding:12px;text-align:center;
+    font-size:14px;font-weight:600;font-family:inherit;
+  }
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+  .btn.stop{background:transparent;color:var(--warn);border-color:var(--warn)}
+  .foot{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+
+  /* ---- 1. калибровка ---- */
+  .calrow{
+    display:grid;grid-template-columns:1fr 58px 58px 44px;gap:8px;align-items:center;
+    padding:9px 0;border-bottom:1px solid var(--rule-2);
+  }
+  .calrow .who{font-size:12.5px}
+  .calrow .who i{display:block;font-style:normal;font-size:10.5px;color:var(--ink-3)}
+  .cell{
+    border:1px solid var(--rule);border-radius:6px;padding:6px 0;text-align:center;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;
+  }
+  .cell.read{border-color:transparent;background:var(--rule-2)}
+  .delta{font-family:'IBM Plex Mono',monospace;font-size:12.5px;text-align:right;color:var(--ink-2)}
+  .calhead{display:grid;grid-template-columns:1fr 58px 58px 44px;gap:8px;padding-bottom:5px}
+  .calhead span{text-align:center}
+  .calhead span:first-child{text-align:left}
+  .calhead span:last-child{text-align:right}
+
+  .verdict{
+    border:1px solid var(--rule);border-radius:10px;padding:12px 13px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .verdict .big{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500}
+  .verdict .note{font-size:11px;color:var(--ok);text-align:right;line-height:1.35}
+
+  /* ---- 2. замер ---- */
+  .level{text-align:center;padding:4px 0 2px}
+  .level .num{
+    font-family:'IBM Plex Mono',monospace;font-size:76px;font-weight:500;
+    line-height:.92;letter-spacing:-.03em;color:var(--db-65);
+  }
+  .level .unit{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);
+    letter-spacing:.12em;margin-top:5px;
+  }
+  .stats{display:flex;justify-content:center;gap:18px;margin-top:8px}
+  .stats div{text-align:center}
+  .stats .v{font-family:'IBM Plex Mono',monospace;font-size:13px}
+  .spark{width:100%;height:34px;display:block}
+  .timer{display:flex;justify-content:space-between;align-items:baseline}
+  .timer .t{font-family:'IBM Plex Mono',monospace;font-size:15px}
+  .track{height:3px;background:var(--rule-2);border-radius:2px;overflow:hidden;margin-top:6px}
+  .track i{display:block;height:100%;width:51%;background:var(--ink)}
+
+  .counters{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .cnt{
+    border:1.5px solid var(--ink);border-radius:11px;padding:12px 8px 10px;text-align:center;
+  }
+  .cnt.heavy{border-color:var(--ink-2)}
+  .cnt .k{font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:500;line-height:1}
+  .cnt .n{font-size:11.5px;font-weight:600;margin-top:5px}
+  .cnt .r{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-3);margin-top:2px}
+
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    border:1px solid var(--rule);border-radius:20px;padding:3px 9px;color:var(--ink-2);
+  }
+  .chip.good{border-color:var(--ok);color:var(--ok)}
+  .chip.bad{border-color:var(--warn);color:var(--warn)}
+
+  /* ---- 3. форма ---- */
+  .fld{display:flex;flex-direction:column;gap:4px}
+  .fld .in{
+    border:1px solid var(--rule);border-radius:7px;padding:9px 10px;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;
+  }
+  .fld .in.dim{color:var(--ink-3)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);border-radius:7px;overflow:hidden}
+  .seg span{padding:9px 0;text-align:center;font-size:12.5px}
+  .seg span.on{background:var(--ink);color:#fff;font-weight:600}
+  .summary{
+    border-left:3px solid var(--db-65);padding:2px 0 2px 11px;
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .summary .a{font-family:'IBM Plex Mono',monospace;font-size:19px}
+  .summary .b{font-size:11.5px;color:var(--ink-2)}
+
+  /* ---- 4. история ---- */
+  .hrow{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 0;border-bottom:1px solid var(--rule-2);
+  }
+  .dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .hrow .id{font-family:'IBM Plex Mono',monospace;font-size:12.5px;width:44px;flex:none}
+  .hrow .db{font-family:'IBM Plex Mono',monospace;font-size:13px;width:44px;flex:none}
+  .hrow .meta{font-size:11px;color:var(--ink-3);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hrow .flag{font-size:10px;color:var(--warn);flex:none;font-family:'IBM Plex Mono',monospace}
+  .tally{display:flex;gap:14px;padding-bottom:2px}
+  .tally div .k{font-family:'IBM Plex Mono',monospace;font-size:20px}
+
+  .legend{
+    display:flex;gap:2px;margin-top:2px;
+  }
+  .legend i{height:5px;flex:1;border-radius:1px}
+
+  @media (max-width:520px){
+    body{padding:26px 16px 44px}
+    .gallery{gap:28px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>noise-field — экраны</h1>
+  <p>Инструмент для одного человека, стоящего на тротуаре. Экран читается на солнце, поэтому фон светлый, а не тёмный. Цвет уровня — та же шкала, что в легенде карты: цифра сама показывает, в какую полосу изофон попадёт точка.</p>
+  <div class="legend" style="max-width:420px">
+    <i style="background:var(--db-45)"></i><i style="background:var(--db-50)"></i><i style="background:var(--db-55)"></i><i style="background:var(--db-60)"></i><i style="background:var(--db-65)"></i><i style="background:var(--db-70)"></i><i style="background:var(--db-75)"></i><i style="background:var(--db-80)"></i>
+  </div>
+</div>
+
+<div class="gallery">
+
+  <!-- ============ 1 ============ -->
+  <div class="slot">
+    <div class="cap">
+      <span class="n">01</span>
+      <span class="t">Калибровка</span>
+      <span class="d">Три пары «прибор / приложение» на разных уровнях. Разброс между парами важнее самого офсета: если он большой, одним числом калибровать нельзя.</span>
+    </div>
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>▮▮▮ 84%</span></div>
+      <div class="bar">
+        <span class="title">Калибровка</span>
+        <span class="sub">Pixel 7 · нижний мик</span>
+      </div>
+      <div class="body">
+        <div class="calhead lbl"><span>Уровень</span><span>Прибор</span><span>Прил.</span><span>Δ</span></div>
+
+        <div style="margin-top:-6px">
+          <div class="calrow">
+            <span class="who">Громко<i>у магистрали</i></span>
+            <span class="cell">71.8</span>
+            <span class="cell read">67.5</span>
+            <span class="delta">+4.3</span>
+          </div>
+          <div class="calrow">
+            <span class="who">Средне<i>обычная улица</i></span>
+            <span class="cell">59.4</span>
+            <span class="cell read">55.5</span>
+            <span class="delta">+3.9</span>
+          </div>
+          <div class="calrow">
+            <span class="who">Тихо<i>двор</i></span>
+            <span class="cell">46.1</span>
+            <span class="cell read">41.9</span>
+            <span class="delta">+4.2</span>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div>
+            <div class="lbl" style="margin-bottom:3px">Офсет</div>
+            <div class="big">+4.1</div>
+          </div>
+          <div class="note">Разброс 0.4 дБ<br>Линейно — годится</div>
+        </div>
+
+        <div class="chips">
+          <span class="chip good">AGC выключен</span>
+          <span class="chip good">UNPROCESSED</span>
+          <span class="chip">44100 Гц</span>
+        </div>
+
+        <div class="foot">
+          <div class="btn">Сохранить офсет</div>
+          <div class="btn ghost">Замерить ещё пару</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 2 ============ -->
+  <div class="slot">
+    <div class="cap">
+      <span class="n">02</span>
+      <span class="t">Замер</span>
+      <span class="d">Главный экран. Всё крупное, потому что смотреть на него будешь искоса — глаза на дороге. Каждое нажатие счётчика пишет метку времени, поэтому интенсивность считается сама.</span>
+    </div>
+    <div class="phone">
+      <div class="status"><span>11:22</span><span>▮▮▮ 71%</span></div>
+      <div class="bar">
+        <span class="title">P03a · фасад</span>
+        <span class="sub">пара 03</span>
+      </div>
+      <div class="body">
+
+        <div class="level">
+          <div class="num">68.4</div>
+          <div class="unit">L A e q &nbsp; д Б ( A )</div>
+        </div>
+
+        <div class="stats">
+          <div><div class="lbl">LAmax</div><div class="v">88.1</div></div>
+          <div><div class="lbl">LA90</div><div class="v">57.3</div></div>
+          <div><div class="lbl">Клип</div><div class="v">0.0%</div></div>
+        </div>
+
+        <svg class="spark" viewBox="0 0 300 34" preserveAspectRatio="none" aria-hidden="true">
+          <polyline fill="none" stroke="#CE6A2E" stroke-width="1.6"
+            points="0,22 8,19 16,24 24,14 32,20 40,11 48,17 56,23 64,15 72,9 80,18 88,21 96,13 104,25 112,17 120,8 128,16 136,22 144,12 152,19 160,26 168,15 176,10 184,20 192,23 200,14 208,18 216,7 224,16 232,24 240,19 248,12 256,21 264,15 272,23 280,17 288,11 296,20"/>
+        </svg>
+
+        <div>
+          <div class="timer">
+            <span class="t">07:41</span>
+            <span class="sub mono" style="font-size:11px;color:var(--ink-3)">из 15:00</span>
+          </div>
+          <div class="track"><i></i></div>
+        </div>
+
+        <div class="counters">
+          <div class="cnt">
+            <div class="k">47</div>
+            <div class="n">Легковые</div>
+            <div class="r">6.1 / мин</div>
+          </div>
+          <div class="cnt heavy">
+            <div class="k">6</div>
+            <div class="n">Грузовые</div>
+            <div class="r">0.8 / мин</div>
+          </div>
+        </div>
+
+        <div class="chips">
+          <span class="chip good">GPS ±4 м</span>
+          <span class="chip">экран можно гасить</span>
+        </div>
+
+        <div class="foot">
+          <div class="btn stop">Завершить замер</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 3 ============ -->
+  <div class="slot">
+    <div class="cap">
+      <span class="n">03</span>
+      <span class="t">Карточка точки</span>
+      <span class="d">Открывается сразу после замера. Всё подставлено из предыдущей точки — на выезде меняются два-три поля. «Переснять» выбрасывает замер, пока ты ещё стоишь на месте.</span>
+    </div>
+    <div class="phone">
+      <div class="status"><span>11:37</span><span>▮▮▮ 69%</span></div>
+      <div class="bar">
+        <span class="title">Замер готов</span>
+        <span class="sub">15:00</span>
+      </div>
+      <div class="body">
+
+        <div class="summary">
+          <span class="a">68.4 дБ(A)</span>
+          <span class="b">92 легковых · 11 грузовых · ±4 м</span>
+        </div>
+
+        <div class="two">
+          <div class="fld">
+            <span class="lbl">ID точки</span>
+            <span class="in">P03a</span>
+          </div>
+          <div class="fld">
+            <span class="lbl">Пара</span>
+            <span class="in">03</span>
+          </div>
+        </div>
+
+        <div class="fld">
+          <span class="lbl">Роль в паре</span>
+          <div class="seg"><span class="on">Фасад</span><span>Двор</span></div>
+        </div>
+
+        <div class="two">
+          <div class="fld">
+            <span class="lbl">До дороги, м</span>
+            <span class="in">7.5</span>
+          </div>
+          <div class="fld">
+            <span class="lbl">До фасада, м</span>
+            <span class="in">4.0</span>
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="fld">
+            <span class="lbl">Ветер, м/с</span>
+            <span class="in">2</span>
+          </div>
+          <div class="fld">
+            <span class="lbl">Покрытие</span>
+            <div class="seg"><span class="on">Сухо</span><span>Мокро</span></div>
+          </div>
+        </div>
+
+        <div class="fld">
+          <span class="lbl">Заметка</span>
+          <span class="in dim">что было рядом</span>
+        </div>
+
+        <div class="foot">
+          <div class="btn">Сохранить точку</div>
+          <div class="btn ghost">Переснять</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 4 ============ -->
+  <div class="slot">
+    <div class="cap">
+      <span class="n">04</span>
+      <span class="t">Выезд</span>
+      <span class="d">Список замеров за день. Точка с флагом не выбрасывается молча — видно, что именно с ней не так и стоит ли вернуться. Экспорт отдаёт CSV ровно в схему validate.mjs.</span>
+    </div>
+    <div class="phone">
+      <div class="status"><span>16:04</span><span>▮▮ 38%</span></div>
+      <div class="bar">
+        <span class="title">18 июня</span>
+        <span class="sub">день · будни</span>
+      </div>
+      <div class="body">
+
+        <div class="tally">
+          <div><div class="lbl">Замеров</div><div class="k">14</div></div>
+          <div><div class="lbl">Пар</div><div class="k">4</div></div>
+          <div><div class="lbl">С флагом</div><div class="k" style="color:var(--warn)">2</div></div>
+        </div>
+
+        <div style="overflow:hidden">
+          <div class="hrow"><i class="dot" style="background:var(--db-70)"></i><span class="id">P01</span><span class="db">72.1</span><span class="meta">11:04 · магистраль</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-65)"></i><span class="id">P03a</span><span class="db">68.4</span><span class="meta">11:22 · фасад</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-50)"></i><span class="id">P03b</span><span class="db">52.7</span><span class="meta">11:44 · двор</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-60)"></i><span class="id">P04</span><span class="db">63.9</span><span class="meta">12:10 · улица</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-65)"></i><span class="id">P05a</span><span class="db">69.8</span><span class="meta">12:38</span><span class="flag">клип 1.4%</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-55)"></i><span class="id">P05b</span><span class="db">56.2</span><span class="meta">12:59 · двор</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-45)"></i><span class="id">P06</span><span class="db">44.3</span><span class="meta">13:21</span><span class="flag">ветер 6</span></div>
+          <div class="hrow"><i class="dot" style="background:var(--db-60)"></i><span class="id">P07</span><span class="db">61.5</span><span class="meta">13:52 · склон</span></div>
+        </div>
+
+        <div class="foot">
+          <div class="btn">Экспорт CSV</div>
+          <div class="btn ghost">Новый замер</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

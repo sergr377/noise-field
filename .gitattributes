@@ -1,0 +1,8 @@
+# Исходники хранятся и выдаются с LF на любой платформе: иначе весь код
+# перепишется целиком при первом же чекауте на Windows.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jar binary
+*.keystore binary
