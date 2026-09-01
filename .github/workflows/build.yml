@@ -13,21 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # AGP 8.7 не запускается на JDK 25. 17 — то же, на чём собирается локально.
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
 
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       # compileSdk 35: на раннере нужная платформа может отсутствовать.
       - name: Доставить SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       # APK собирается до тестов и выкладывается сразу: даже если тест упадёт,
       # собранное приложение остаётся доступным для поля.
@@ -35,7 +35,7 @@ jobs:
         run: ./gradlew :app:assembleDebug --console=plain
 
       - name: Выложить APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: noise-field-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
@@ -47,7 +47,7 @@ jobs:
       # Отчёты нужны именно тогда, когда тесты упали.
       - name: Выложить отчёты тестов
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-reports
           path: app/build/reports/tests/testDebugUnitTest
