@@ -54,8 +54,11 @@ the checkout sit under a non-ASCII path, which AGP otherwise refuses.
 ```
 
 Unit tests (`app/src/test`) cover the audio tract, CSV builder, and data
-encoding, and need no device. `NoiseDbTest` (`app/src/androidTest`) is a Room
-schema test and needs a device or emulator.
+encoding, and need no device. `NoiseDbTest` (`app/src/androidTest`) writes and
+reads back all three entities and needs a device or emulator; it does not run in
+CI. Nothing verifies schema migrations — the committed `app/schemas` makes such
+a test possible, but none is written, so a bumped `NoiseDb.version` is covered
+by nothing.
 
 ## Stack
 
@@ -137,8 +140,11 @@ applied; `mic_height_m` is the constant 1.5.
 Anything outside the spec is a regression. Do not add, propose, or "prepare for":
 backend or sync, accounts, an in-app map, crowdsourcing or device-offset
 databases, analytics beyond what the spec lists, audio storage, localisation
-(Russian UI only), dark theme, tablet or landscape layouts. Colour appears in
-exactly one place — the level scale in `Palette` (§3).
+(Russian UI only), dark theme, tablet or landscape layouts.
+
+The only colour carrying measurement meaning is the level scale in `Palette`
+(§3). `Palette.Ok` and `Palette.Warn` exist too, for calibration state and
+chips, and are not licence to colour anything else.
 
 Fonts are system fonts on purpose (offline field use); numeric fields are
 monospaced with tabular figures so the large `LAeq` does not jitter.
