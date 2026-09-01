@@ -1,0 +1,319 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "6951a97c12c3963bc896ce5dbdee3f1c",
+    "entities": [
+      {
+        "tableName": "calibration",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `createdAt` INTEGER NOT NULL, `device` TEXT NOT NULL, `audioSource` TEXT NOT NULL, `sampleRate` INTEGER NOT NULL, `offsetDb` REAL NOT NULL, `spreadDb` REAL NOT NULL, `pairsJson` TEXT NOT NULL, `agcDisabled` INTEGER NOT NULL, `nsDisabled` INTEGER NOT NULL, `aecDisabled` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "device",
+            "columnName": "device",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "audioSource",
+            "columnName": "audioSource",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sampleRate",
+            "columnName": "sampleRate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetDb",
+            "columnName": "offsetDb",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spreadDb",
+            "columnName": "spreadDb",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pairsJson",
+            "columnName": "pairsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "agcDisabled",
+            "columnName": "agcDisabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nsDisabled",
+            "columnName": "nsDisabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aecDisabled",
+            "columnName": "aecDisabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "measurement",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startedAt` INTEGER NOT NULL, `durationSec` INTEGER NOT NULL, `calibrationId` INTEGER NOT NULL, `laeq` REAL NOT NULL, `laMax` REAL NOT NULL, `la90` REAL NOT NULL, `la50` REAL NOT NULL, `la10` REAL NOT NULL, `clipRatio` REAL NOT NULL, `lat` REAL NOT NULL, `lon` REAL NOT NULL, `gpsAccuracyM` REAL NOT NULL, `laeqPerSecJson` TEXT NOT NULL, `octavesPerSecJson` TEXT, `pointId` TEXT NOT NULL, `pairId` TEXT, `pairRole` TEXT, `distRoadM` REAL, `distFacadeM` REAL, `windMs` REAL, `surface` TEXT NOT NULL, `notes` TEXT, `flagsJson` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "startedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "durationSec",
+            "columnName": "durationSec",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "calibrationId",
+            "columnName": "calibrationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "laeq",
+            "columnName": "laeq",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "laMax",
+            "columnName": "laMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "la90",
+            "columnName": "la90",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "la50",
+            "columnName": "la50",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "la10",
+            "columnName": "la10",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clipRatio",
+            "columnName": "clipRatio",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "lat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lon",
+            "columnName": "lon",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gpsAccuracyM",
+            "columnName": "gpsAccuracyM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "laeqPerSecJson",
+            "columnName": "laeqPerSecJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "octavesPerSecJson",
+            "columnName": "octavesPerSecJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pointId",
+            "columnName": "pointId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pairId",
+            "columnName": "pairId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pairRole",
+            "columnName": "pairRole",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "distRoadM",
+            "columnName": "distRoadM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "distFacadeM",
+            "columnName": "distFacadeM",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "windMs",
+            "columnName": "windMs",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "surface",
+            "columnName": "surface",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "flagsJson",
+            "columnName": "flagsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_measurement_calibrationId",
+            "unique": false,
+            "columnNames": [
+              "calibrationId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_measurement_calibrationId` ON `${TABLE_NAME}` (`calibrationId`)"
+          },
+          {
+            "name": "index_measurement_startedAt",
+            "unique": false,
+            "columnNames": [
+              "startedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_measurement_startedAt` ON `${TABLE_NAME}` (`startedAt`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "vehicle_event",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `measurementId` INTEGER NOT NULL, `tMs` INTEGER NOT NULL, `heavy` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "measurementId",
+            "columnName": "measurementId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tMs",
+            "columnName": "tMs",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heavy",
+            "columnName": "heavy",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_vehicle_event_measurementId",
+            "unique": false,
+            "columnNames": [
+              "measurementId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_vehicle_event_measurementId` ON `${TABLE_NAME}` (`measurementId`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6951a97c12c3963bc896ce5dbdee3f1c')"
+    ]
+  }
+}
