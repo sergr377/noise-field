@@ -149,7 +149,7 @@ class AudioTractTest {
         bank.takeLevels()
         for (i in fs until fs * 2) bank.process(sin(2.0 * PI * freq * i / fs))
         val levels = bank.takeLevels()
-        val index = OctaveBank.CENTERS.indexOf(1000.0)
+        val index = OctaveBank.CENTERS.indexOfFirst { it == 1000.0 }
 
         for (i in levels.indices) {
             if (i == index) continue
@@ -185,7 +185,7 @@ class AudioTractTest {
             for (i in levels.indices) perBlockEnergy[i] += Math.pow(10.0, levels[i] / 10.0) / 2.0
         }
 
-        val index = OctaveBank.CENTERS.indexOf(500.0)
+        val index = OctaveBank.CENTERS.indexOfFirst { it == 500.0 }
         val chunkedLevel = 10.0 * log10(perBlockEnergy[index])
         assertEquals(wholeLevels[index], chunkedLevel, 0.05)
     }
