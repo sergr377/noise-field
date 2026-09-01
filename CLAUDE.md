@@ -32,10 +32,14 @@ adding code that implements a spec requirement.
 
 JDK **17 or 21** is required — AGP 8.7 does not run on JDK 25.
 
-The repo contains no `gradlew` script and no `gradle/wrapper/gradle-wrapper.jar`
-(only `gradle-wrapper.properties`, pinned to Gradle 8.9). The wrapper appears
-after opening the project in Android Studio, or after running `gradle wrapper`
-with a locally installed Gradle 8.9. Until then, `./gradlew` will not work.
+The Gradle wrapper is committed and pinned to Gradle 8.9 — no separate Gradle
+install is needed. `gradlew` runs on whatever `JAVA_HOME` points at, and it must
+be a JDK 17 or 21. Recent Android Studio ships Java 25 as its own runtime, which
+this build cannot use; Studio downloads a separate `jbr-21` into `~/.jdks` and
+runs Gradle sync on that.
+
+`android.overridePathCheck=true` in `gradle.properties` is deliberate: it lets
+the checkout sit under a non-ASCII path, which AGP otherwise refuses.
 
 ```bash
 ./gradlew :app:assembleDebug

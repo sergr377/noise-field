@@ -13,10 +13,9 @@ noise-map.
 ./gradlew :app:assembleDebug
 ```
 
-Нужен **JDK 17 или 21** — AGP 8.7 на JDK 25 не запускается. В репозитории нет
-`gradle/wrapper/gradle-wrapper.jar` (бинарник); он появится после первого
-открытия проекта в Android Studio либо после `gradle wrapper` с локально
-установленным Gradle 8.9.
+Нужен **JDK 17 или 21** — AGP 8.7 на JDK 25 не запускается. Wrapper лежит
+в репозитории, отдельный Gradle ставить не нужно; `JAVA_HOME` должен указывать
+на JDK 17 или 21.
 
 Юнит-тесты (без устройства):
 

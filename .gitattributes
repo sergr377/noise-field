@@ -6,3 +6,6 @@
 *.jpg binary
 *.jar binary
 *.keystore binary
+
+# Батник wrapper-а обязан быть с CRLF: иначе cmd.exe спотыкается о LF.
+*.bat text eol=crlf
